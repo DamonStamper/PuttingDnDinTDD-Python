@@ -8,9 +8,9 @@ Milestones are listed below, but tracking of progress will be maintained in Azur
 
 # Requirements
 
-## Iteration 1 - Core
+## Milestone 1 - Core
 
-This iteration covers core functionality for leveling, combat, and character attributes.
+This milestone covers core functionality for leveling, combat, and character attributes.
 
 ### Feature: Create a Character
 
@@ -94,7 +94,7 @@ This iteration covers core functionality for leveling, combat, and character att
     - hit points increase by 5 plus Con modifier
     - 1 is added to attack roll for every even level achieved
 
-## Iteration 2 - Classes
+## Milestone 2 - Classes
 
 Classes that a character can have.
 
@@ -140,7 +140,7 @@ Classes that a character can have.
 - attacks roll is increased by 1 for every level instead of every other level
 - can only have Good alignment
 
-## Iteration 3 - Races
+## Milestone 3 - Races
 
 Races that a character can be.
 
@@ -186,7 +186,7 @@ play more interesting characters and wont be boring and unoriginal
 - +2 to Armor Class when being attacked by non Halfling (they are small and hard to hit)
 - cannot have Evil alignment
 
-## Iteration 4 - Weapons, Armor & Items
+## Milestone 4 - Weapons, Armor & Items
 
 Items that enhance a characters capabilities.
 
@@ -295,7 +295,7 @@ Items that enhance a characters capabilities.
   - +2 to attack against Evil enemies
   - double above bonuses if worn by a paladin
 
-## Bonus Iteration - Battle Grid
+## Bonus Milestone - Battle Grid
 
 Build your own features here.  Multiple characters can be on a grid-based map.  Each square on the map had terrain
 that impacts the occupant or opponents attacking into it.  Characters can move and weapons have ranges.
