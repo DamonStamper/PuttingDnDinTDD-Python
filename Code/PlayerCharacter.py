@@ -1,12 +1,13 @@
 import pytest
 
-class PlayerCharArmorClasster:
+class PlayerCharacter:
     """The entity that is played"""
 
-    def __init__(self, name, alignment = 'Neutral', ArmorClass = 10):
+    def __init__(self, name, Alignment = 'Neutral', ArmorClass = 10, HitPoints = 5):
         self.name = name
-        self.alignment = alignment
+        self.Alignment = Alignment
         self.ArmorClass = ArmorClass
+        self.HitPoints = HitPoints
     
     @property
     def name(self):
@@ -20,16 +21,16 @@ class PlayerCharArmorClasster:
             raise Exception('Please provide a valid name (string).')
 
     @property
-    def alignment(self):
-        return self.__alignment
+    def Alignment(self):
+        return self.__Alignment
 
-    @alignment.setter
-    def alignment(self, new_alignment):
-        alignments = ['Good', 'Evil', 'Neutral']
-        if (new_alignment in alignments):
-            self.__alignment = new_alignment
+    @Alignment.setter
+    def Alignment(self, new_Alignment):
+        Alignments = ['Good', 'Evil', 'Neutral']
+        if (new_Alignment in Alignments):
+            self.__Alignment = new_Alignment
         else: 
-            raise Exception(f"Please provide a valid alignment. Valid alignments are {alignments}.")
+            raise Exception(f"Please provide a valid Alignment. Valid Alignments are {Alignments}.")
 
     @property
     def ArmorClass(self):
@@ -39,45 +40,64 @@ class PlayerCharArmorClasster:
     def ArmorClass(self, new_ArmorClass):
         self.__ArmorClass = new_ArmorClass
 
+    @property
+    def HitPoints(self):
+        return self.__HitPoints
 
-def test_PlayerCharArmorClasster_CreateCorrectName():
-    PlayerCharArmorClasster('Foo')
+    @HitPoints.setter
+    def HitPoints(self, new_HitPoints):
+        self.__HitPoints = new_HitPoints
 
-def test_PlayerCharArmorClasster_CreateIncorrectName():
+def test_PlayerCharacter_IncorrectNoParameters():
     with pytest.raises(Exception):
-        PlayerCharArmorClasster(7)
+        PlayerCharacter()
 
-def test_PlayerCharArmorClasster_GetCorrectName():
-    player = PlayerCharArmorClasster('Foo')
-    assert player.name == 'Foo'
+def test_PlayerCharacterArmorClass_CreateCorrectName():
+    PlayerCharacter('Foo')
 
-def test_PlayerCharArmorClasster_RenameCorrectName():
-    player = PlayerCharArmorClasster('Foo')
-    player.name = 'Bar'
-    assert player.name == 'Bar'
-
-def test_PlayerCharArmorClasster_RenameIncorrectName():
-    player = PlayerCharArmorClasster('Foo')
+def test_PlayerCharacterArmorClasster_CreateIncorrectName():
     with pytest.raises(Exception):
-        player.name = 7
+        PlayerCharacter(7)
 
-def test_PlayerCharArmorClasster_CreateDefaultAlignment():
-    player = PlayerCharArmorClasster('Foo')
-    assert player.alignment == 'Neutral'
+def test_PlayerCharacter_GetCorrectName():
+    Player = PlayerCharacter('Foo')
+    assert Player.name == 'Foo'
 
+def test_PlayerCharacter_RenameCorrectName():
+    Player = PlayerCharacter('Foo')
+    Player.name = 'Bar'
+    assert Player.name == 'Bar'
 
-def test_PlayerCharArmorClasster_CreateSpecificAlignment():
-    player = PlayerCharArmorClasster('Foo', alignment='Good')
-    assert player.alignment == 'Good'
-
-def test_PlayerCharArmorClasster_CreateIncorrectAlignment():
+def test_PlayerCharacter_RenameIncorrectName():
+    Player = PlayerCharacter('Foo')
     with pytest.raises(Exception):
-        PlayerCharArmorClasster('Foo', alignment='Something')
+        Player.name = 7
 
-def test_PlayerCharArmorClasster_CreateDefaultArmorClass():
-    player = PlayerCharArmorClasster('Foo')
-    assert player.ArmorClass == 10
+def test_PlayerCharacter_CreateDefaultAlignment():
+    Player = PlayerCharacter('Foo')
+    assert Player.Alignment == 'Neutral'
 
-def test_PlayerCharArmorClasster_CreateSpecifictArmorClass():
-    player = PlayerCharArmorClasster('Foo', ArmorClass=7)
-    assert player.ArmorClass == 7
+
+def test_PlayerCharacter_CreateSpecificAlignment():
+    Player = PlayerCharacter('Foo', Alignment='Good')
+    assert Player.Alignment == 'Good'
+
+def test_PlayerCharacter_CreateIncorrectAlignment():
+    with pytest.raises(Exception):
+        PlayerCharacter('Foo', Alignment='Something')
+
+def test_PlayerCharacter_CreateDefaultArmorClass():
+    Player = PlayerCharacter('Foo')
+    assert Player.ArmorClass == 10
+
+def test_PlayerCharacter_CreateSpecifictArmorClass():
+    Player = PlayerCharacter('Foo', ArmorClass=7)
+    assert Player.ArmorClass == 7
+
+def test_PlayerCharacter_CreateDefaultHitPoints():
+    Player = PlayerCharacter('Foo')
+    assert Player.HitPoints == 5
+
+def test_PlayerCharacter_CreateSpecifictHitPoints():
+    Player = PlayerCharacter('Foo', HitPoints=7)
+    assert Player.HitPoints == 7
