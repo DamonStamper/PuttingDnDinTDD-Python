@@ -1,4 +1,6 @@
 import pytest
+import random
+import unittest.mock 
 
 class PlayerCharacter:
     """The entity that is played"""
@@ -47,6 +49,15 @@ class PlayerCharacter:
     @HitPoints.setter
     def HitPoints(self, new_HitPoints):
         self.__HitPoints = new_HitPoints
+    
+    def Attack(self, Target):
+        ToHit = random.randint(1,20)
+        if ToHit >= Target.ArmorClass:
+            return True
+            #Target.Damage()
+
+
+
 
 def test_PlayerCharacter_IncorrectNoParameters():
     with pytest.raises(Exception):
@@ -101,3 +112,8 @@ def test_PlayerCharacter_CreateDefaultHitPoints():
 def test_PlayerCharacter_CreateSpecifictHitPoints():
     Player = PlayerCharacter('Foo', HitPoints=7)
     assert Player.HitPoints == 7
+
+def test_PlayerCharacter_CanAttack():
+    Player = PlayerCharacter('Foo')
+    Enemy = PlayerCharacter('Bar')
+    Player.Attack(Enemy)

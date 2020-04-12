@@ -1,1 +1,2 @@
-pytest
+pytest==4.4.0
+mock==4.0.2
