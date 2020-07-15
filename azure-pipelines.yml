@@ -8,6 +8,12 @@ trigger:
     include:
     - '*'
 
+variables:
+  sonarcloudServiceConnection: 'SonarCloudConnection'
+  sonarcloudOrganization: 'damonstamper'
+  sonarcloudProjectName: 'putting-dnd-in-tdd-python'
+  sonarcloudProjectKey: 'putting-dnd-in-tdd-python'
+
 pool:
   vmImage: 'ubuntu-latest'
 strategy:
@@ -19,6 +25,7 @@ strategy:
 
 steps:
 - task: UsePythonVersion@0
+  displayName: Prep - Specifying Python version
   inputs:
     versionSpec: '$(python.version)'
   displayName: 'Use Python $(python.version)'
@@ -32,3 +39,19 @@ steps:
     pip install pytest pytest-azurepipelines
     pytest ./**/*.py
   displayName: 'pytest'
+
+- task: SonarCloudPrepare@1
+  displayName: Prep - Configure SonarCloud
+  inputs:
+    SonarCloud: $(sonarcloudServiceConnection)
+    organization: $(sonarcloudOrganization)
+    projectKey: $(sonarcloudProjectKey)
+    projectName: $(sonarcloudProjectName)
+
+- task: SonarCloudAnalyze@1
+  displayName: Build - Analyze code coverage for SonarCloud
+
+- task: SonarCloudPublish@1
+  displayName: Build - Publish code coverage to SonarCloud
+  inputs:
+    pollingTimeoutSec: '300'
