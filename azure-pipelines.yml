@@ -25,20 +25,9 @@ strategy:
 
 steps:
 - task: UsePythonVersion@0
-  displayName: Prep - Specifying Python version
+  displayName: 'Prep -Use Python $(python.version)'
   inputs:
     versionSpec: '$(python.version)'
-  displayName: 'Use Python $(python.version)'
-
-- script: |
-    python -m pip install --upgrade pip
-    pip install -r requirements.txt
-  displayName: 'Install dependencies'
-
-- script: |
-    pip install pytest pytest-azurepipelines
-    pytest ./**/*.py
-  displayName: 'pytest'
 
 - task: SonarCloudPrepare@1
   displayName: Prep - Configure SonarCloud
@@ -55,3 +44,13 @@ steps:
   displayName: Build - Publish code coverage to SonarCloud
   inputs:
     pollingTimeoutSec: '300'
+
+- script: |
+    python -m pip install --upgrade pip
+    pip install -r requirements.txt
+  displayName: 'Build - Install dependencies'
+
+- script: |
+    pip install pytest pytest-azurepipelines
+    pytest ./**/*.py
+  displayName: 'Build - test via pytest'
