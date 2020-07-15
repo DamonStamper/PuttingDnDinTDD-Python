@@ -1,6 +1,10 @@
 # Reason
 To follow https://github.com/PuttingTheDnDInTDD/EverCraft-Kata
 
+# Setting up for local development
+`pip install -r requirements.txt`
+* If using Windows then run the above command from an elevated shell.
+
 # Project tracking/CICD/SonarCloud
 https://dev.azure.com/DamonStamperPersonal/DandD%20in%20TDD 
 https://sonarcloud.io/project/configuration?id=putting-dnd-in-tdd-python

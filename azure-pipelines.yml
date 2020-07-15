@@ -37,14 +37,6 @@ steps:
     projectKey: $(sonarcloudProjectKey)
     projectName: $(sonarcloudProjectName)
 
-- task: SonarCloudAnalyze@1
-  displayName: Build - Analyze code coverage for SonarCloud
-
-- task: SonarCloudPublish@1
-  displayName: Build - Publish code coverage to SonarCloud
-  inputs:
-    pollingTimeoutSec: '300'
-
 - script: |
     python -m pip install --upgrade pip
     pip install -r requirements.txt
@@ -52,5 +44,19 @@ steps:
 
 - script: |
     pip install pytest pytest-azurepipelines
-    pytest ./**/*.py
+    pytest ./**/*.py --cov-config=.coveragerc --cov-report xml:coverage.xml --cov=Code
   displayName: 'Build - test via pytest'
+
+- task: PublishTestResults@2
+  condition: succeededOrFailed()
+  inputs:
+    testResultsFiles: '**/test-*.xml'
+    testRunTitle: 'Publish test results for Python $(python.version)'
+
+- task: SonarCloudAnalyze@1
+  displayName: Build - Analyze code coverage for SonarCloud
+
+- task: SonarCloudPublish@1
+  displayName: Build - Publish code coverage to SonarCloud
+  inputs:
+    pollingTimeoutSec: '300'
