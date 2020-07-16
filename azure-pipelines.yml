@@ -36,6 +36,9 @@ steps:
     organization: $(sonarcloudOrganization)
     projectKey: $(sonarcloudProjectKey)
     projectName: $(sonarcloudProjectName)
+    scannerMode: 'CLI'
+    configMode: 'file'
+    configFile: sonar-project.properties
 
 - script: |
     python -m pip install --upgrade pip
@@ -43,15 +46,15 @@ steps:
   displayName: 'Build - Install dependencies'
 
 - script: |
-    pip install pytest pytest-azurepipelines
+    pip install pytest-azurepipelines
     pytest --junitxml=junit.xml --cov-config=.coveragerc --cov-report=xml --cov=Code ./**/*.py
   displayName: 'Build - test via pytest'
 
-- task: PublishTestResults@2
-  condition: succeededOrFailed()
-  inputs:
-    testResultsFiles: '**/test-*.xml'
-    testRunTitle: 'Publish test results for Python $(python.version)'
+# - task: PublishTestResults@2
+#   condition: succeededOrFailed()
+#   inputs:
+#     testResultsFiles: '**/test-*.xml'
+#     testRunTitle: 'Publish test results for Python $(python.version)'
 
 - task: SonarCloudAnalyze@1
   displayName: Build - Analyze code coverage for SonarCloud
