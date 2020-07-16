@@ -44,7 +44,7 @@ steps:
 
 - script: |
     pip install pytest pytest-azurepipelines
-    pytest ./**/*.py --junitxml=junit.xml --cov-config=.coveragerc --cov-report=xml --cov=Code
+    pytest --junitxml=junit.xml --cov-config=.coveragerc --cov-report=xml --cov=Code ./**/*.py
   displayName: 'Build - test via pytest'
 
 - task: PublishTestResults@2
