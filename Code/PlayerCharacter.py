@@ -48,8 +48,8 @@ class PlayerCharacter:
     def hitpoints(self, new_hitpoints):
         self.__hitpoints = new_hitpoints
     
-    def Attack(self, Target):
-        ToHit = random.randint(1,20)
-        if ToHit >= Target.armorclass:
+    def attack(self, target):
+        to_hit = random.randint(1,20)
+        if to_hit >= target.armorclass:
             return True
-            #Target.Damage()
+            #target.Damage()
