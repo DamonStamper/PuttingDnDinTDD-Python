@@ -3,11 +3,11 @@ import random
 class PlayerCharacter:
     """The entity that is played"""
 
-    def __init__(self, name, Alignment = 'Neutral', ArmorClass = 10, HitPoints = 5):
+    def __init__(self, name, alignment = 'Neutral', armorClass = 10, hitPoints = 5):
         self.name = name
-        self.Alignment = Alignment
-        self.ArmorClass = ArmorClass
-        self.HitPoints = HitPoints
+        self.alignment = alignment
+        self.armorClass = armorClass
+        self.hitPoints = hitPoints
     
     @property
     def name(self):
@@ -21,35 +21,35 @@ class PlayerCharacter:
             raise Exception('Please provide a valid name (string).')
 
     @property
-    def Alignment(self):
-        return self.__Alignment
+    def alignment(self):
+        return self.__alignment
 
-    @Alignment.setter
-    def Alignment(self, new_Alignment):
-        Alignments = ['Good', 'Evil', 'Neutral']
-        if (new_Alignment in Alignments):
-            self.__Alignment = new_Alignment
+    @alignment.setter
+    def alignment(self, new_alignment):
+        alignments = ['Good', 'Evil', 'Neutral']
+        if (new_alignment in alignments):
+            self.__alignment = new_alignment
         else: 
-            raise Exception(f"Please provide a valid Alignment. Valid Alignments are {Alignments}.")
+            raise Exception(f"Please provide a valid alignment. Valid alignments are {alignments}.")
 
     @property
-    def ArmorClass(self):
-        return self.__ArmorClass
+    def armorClass(self):
+        return self.__armorClass
 
-    @ArmorClass.setter
-    def ArmorClass(self, new_ArmorClass):
-        self.__ArmorClass = new_ArmorClass
+    @armorClass.setter
+    def armorClass(self, new_armorClass):
+        self.__armorClass = new_armorClass
 
     @property
-    def HitPoints(self):
-        return self.__HitPoints
+    def hitPoints(self):
+        return self.__hitPoints
 
-    @HitPoints.setter
-    def HitPoints(self, new_HitPoints):
-        self.__HitPoints = new_HitPoints
+    @hitPoints.setter
+    def hitPoints(self, new_hitPoints):
+        self.__hitPoints = new_hitPoints
     
     def Attack(self, Target):
         ToHit = random.randint(1,20)
-        if ToHit >= Target.ArmorClass:
+        if ToHit >= Target.armorClass:
             return True
             #Target.Damage()

@@ -30,32 +30,32 @@ def test_PlayerCharacter_RenameIncorrectName():
 
 def test_PlayerCharacter_CreateDefaultAlignment():
     Player = PlayerCharacter.PlayerCharacter('Foo')
-    assert Player.Alignment == 'Neutral'
+    assert Player.alignment == 'Neutral'
 
 
 def test_PlayerCharacter_CreateSpecificAlignment():
-    Player = PlayerCharacter.PlayerCharacter('Foo', Alignment='Good')
-    assert Player.Alignment == 'Good'
+    Player = PlayerCharacter.PlayerCharacter('Foo', alignment='Good')
+    assert Player.alignment == 'Good'
 
 def test_PlayerCharacter_CreateIncorrectAlignment():
     with pytest.raises(Exception):
-        PlayerCharacter.PlayerCharacter('Foo', Alignment='Something')
+        PlayerCharacter.PlayerCharacter('Foo', alignment='Something')
 
 def test_PlayerCharacter_CreateDefaultArmorClass():
     Player = PlayerCharacter.PlayerCharacter('Foo')
-    assert Player.ArmorClass == 10
+    assert Player.armorClass == 10
 
 def test_PlayerCharacter_CreateSpecifictArmorClass():
-    Player = PlayerCharacter.PlayerCharacter('Foo', ArmorClass=7)
-    assert Player.ArmorClass == 7
+    Player = PlayerCharacter.PlayerCharacter('Foo', armorClass=7)
+    assert Player.armorClass == 7
 
 def test_PlayerCharacter_CreateDefaultHitPoints():
     Player = PlayerCharacter.PlayerCharacter('Foo')
-    assert Player.HitPoints == 5
+    assert Player.hitPoints == 5
 
 def test_PlayerCharacter_CreateSpecifictHitPoints():
-    Player = PlayerCharacter.PlayerCharacter('Foo', HitPoints=7)
-    assert Player.HitPoints == 7
+    Player = PlayerCharacter.PlayerCharacter('Foo', hitPoints=7)
+    assert Player.hitPoints == 7
 
 def test_PlayerCharacter_CanAttack():
     Player = PlayerCharacter.PlayerCharacter('Foo')
