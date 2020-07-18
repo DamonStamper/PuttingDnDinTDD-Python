@@ -59,5 +59,5 @@ def test_playercharacter_create_specifict_hitpoints():
 
 def test_playercharacter_can_attack():
     player = PlayerCharacter.PlayerCharacter('Foo')
-    Enemy = PlayerCharacter.PlayerCharacter('Bar')
-    player.attack(Enemy)
+    enemy = PlayerCharacter.PlayerCharacter('Bar')
+    player.attack(enemy)
