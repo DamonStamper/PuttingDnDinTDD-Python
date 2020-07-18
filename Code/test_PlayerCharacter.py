@@ -43,19 +43,19 @@ def test_PlayerCharacter_CreateIncorrectAlignment():
 
 def test_PlayerCharacter_CreateDefaultArmorClass():
     Player = PlayerCharacter.PlayerCharacter('Foo')
-    assert Player.armorClass == 10
+    assert Player.armorclass == 10
 
 def test_PlayerCharacter_CreateSpecifictArmorClass():
-    Player = PlayerCharacter.PlayerCharacter('Foo', armorClass=7)
-    assert Player.armorClass == 7
+    Player = PlayerCharacter.PlayerCharacter('Foo', armorclass=7)
+    assert Player.armorclass == 7
 
 def test_PlayerCharacter_CreateDefaultHitPoints():
     Player = PlayerCharacter.PlayerCharacter('Foo')
-    assert Player.hitPoints == 5
+    assert Player.hitpoints == 5
 
 def test_PlayerCharacter_CreateSpecifictHitPoints():
-    Player = PlayerCharacter.PlayerCharacter('Foo', hitPoints=7)
-    assert Player.hitPoints == 7
+    Player = PlayerCharacter.PlayerCharacter('Foo', hitpoints=7)
+    assert Player.hitpoints == 7
 
 def test_PlayerCharacter_CanAttack():
     Player = PlayerCharacter.PlayerCharacter('Foo')

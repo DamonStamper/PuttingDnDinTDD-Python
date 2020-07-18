@@ -3,11 +3,11 @@ import random
 class PlayerCharacter:
     """The entity that is played"""
 
-    def __init__(self, name, alignment = 'Neutral', armorClass = 10, hitPoints = 5):
+    def __init__(self, name, alignment = 'Neutral', armorclass = 10, hitpoints = 5):
         self.name = name
         self.alignment = alignment
-        self.armorClass = armorClass
-        self.hitPoints = hitPoints
+        self.armorclass = armorclass
+        self.hitpoints = hitpoints
     
     @property
     def name(self):
@@ -33,23 +33,23 @@ class PlayerCharacter:
             raise Exception(f"Please provide a valid alignment. Valid alignments are {alignments}.")
 
     @property
-    def armorClass(self):
-        return self.__armorClass
+    def armorclass(self):
+        return self.__armorclass
 
-    @armorClass.setter
-    def armorClass(self, new_armorClass):
-        self.__armorClass = new_armorClass
+    @armorclass.setter
+    def armorclass(self, new_armorclass):
+        self.__armorclass = new_armorclass
 
     @property
-    def hitPoints(self):
-        return self.__hitPoints
+    def hitpoints(self):
+        return self.__hitpoints
 
-    @hitPoints.setter
-    def hitPoints(self, new_hitPoints):
-        self.__hitPoints = new_hitPoints
+    @hitpoints.setter
+    def hitpoints(self, new_hitpoints):
+        self.__hitpoints = new_hitpoints
     
     def Attack(self, Target):
         ToHit = random.randint(1,20)
-        if ToHit >= Target.armorClass:
+        if ToHit >= Target.armorclass:
             return True
             #Target.Damage()
