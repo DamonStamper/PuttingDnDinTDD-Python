@@ -18,7 +18,7 @@ class PlayerCharacter:
         if (isinstance(new_name, str)):
             self.__name = new_name
         else: 
-            raise Exception('Please provide a valid name (string).')
+            raise ValueError('Please provide a valid name (string).')
 
     @property
     def alignment(self):
@@ -30,7 +30,7 @@ class PlayerCharacter:
         if (new_alignment in alignments):
             self.__alignment = new_alignment
         else: 
-            raise Exception(f"Please provide a valid alignment. Valid alignments are {alignments}.")
+            raise ValueError(f"Please provide a valid alignment. Valid alignments are {alignments}.")
 
     @property
     def armorclass(self):

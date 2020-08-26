@@ -1,17 +1,18 @@
 import pytest
 import unittest.mock 
 
-import PlayerCharacter
+from .context import PlayerCharacter
 
 def test_playercharacter_incorrect_no_parameters():
-    with pytest.raises(Exception):
+    with pytest.raises(TypeError):
         PlayerCharacter.PlayerCharacter()
 
 def test_playercharacter_armorclass_create_correct_name():
-    PlayerCharacter.PlayerCharacter('Foo')
+    player = PlayerCharacter.PlayerCharacter('Foo')
+    assert player.name == 'Foo'
 
 def test_playercharacter_armorclass_create_incorrect_name():
-    with pytest.raises(Exception):
+    with pytest.raises(ValueError):
         PlayerCharacter.PlayerCharacter(7)
 
 def test_playercharacter_get_correct_name():
@@ -25,7 +26,7 @@ def test_playercharacter_rename_correct_name():
 
 def test_playercharacter_rename_incorrect_name():
     player = PlayerCharacter.PlayerCharacter('Foo')
-    with pytest.raises(Exception):
+    with pytest.raises(ValueError):
         player.name = 7
 
 def test_playercharacter_create_default_alignment():
@@ -38,7 +39,7 @@ def test_playercharacter_create_specific_alignment():
     assert player.alignment == 'Good'
 
 def test_playercharacter_create_incorrect_alignment():
-    with pytest.raises(Exception):
+    with pytest.raises(ValueError) as exp:
         PlayerCharacter.PlayerCharacter('Foo', alignment='Something')
 
 def test_playercharacter_create_default_armorclass():
