@@ -50,7 +50,7 @@ steps:
     pytest --junitxml=junit.xml --cov-config=setup.cfg --cov-report=xml --cov=DnDinTDD ./**/*.py
   displayName: 'Build - test via pytest'
 
-  - script: |
+- script: |
     ls -lha
     cat junit.xml
   displayName: 'DEBUG - LS root dir and cat coverage'
