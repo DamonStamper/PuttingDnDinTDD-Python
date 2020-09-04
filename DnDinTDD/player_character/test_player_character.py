@@ -1,9 +1,3 @@
-# pylint: disable=C0103
-# pylint: disable=R0201
-# pylint: disable=C0116
-# pylint: disable=E1120
-# pylint: disable=C0114
-# pylint: disable=C0115
 import pytest
 
 from player_character import player_character

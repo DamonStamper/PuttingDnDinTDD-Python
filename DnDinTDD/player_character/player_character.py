@@ -4,8 +4,6 @@ import random
 class PlayerCharacter:
     """The entity that is played"""
 
-    # pylint: disable=too-many-instance-attributes
-
     def __init__(self, name, alignment='Neutral', armorclass=10, hitpoints=5):
         self.name = name
         self.alignment = alignment
