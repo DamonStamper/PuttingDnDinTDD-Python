@@ -1,14 +1,15 @@
 import random
 
+
 class PlayerCharacter:
     """The entity that is played"""
 
-    def __init__(self, name, alignment = 'Neutral', armorclass = 10, hitpoints = 5):
+    def __init__(self, name, alignment='Neutral', armorclass=10, hitpoints=5):
         self.name = name
         self.alignment = alignment
         self.armorclass = armorclass
         self.hitpoints = hitpoints
-    
+
     @property
     def name(self):
         return self.__name
@@ -17,7 +18,7 @@ class PlayerCharacter:
     def name(self, new_name):
         if (isinstance(new_name, str)):
             self.__name = new_name
-        else: 
+        else:
             raise ValueError('Please provide a valid name (string).')
 
     @property
@@ -29,7 +30,7 @@ class PlayerCharacter:
         alignments = ['Good', 'Evil', 'Neutral']
         if (new_alignment in alignments):
             self.__alignment = new_alignment
-        else: 
+        else:
             raise ValueError(f"Please provide a valid alignment. Valid alignments are {alignments}.")
 
     @property
@@ -47,9 +48,9 @@ class PlayerCharacter:
     @hitpoints.setter
     def hitpoints(self, new_hitpoints):
         self.__hitpoints = new_hitpoints
-    
+
     def attack(self, target):
-        to_hit = random.randint(1,20)
+        to_hit = random.randint(1, 20)
         if to_hit >= target.armorclass:
             return True
-            #target.Damage()
+            # target.Damage()
