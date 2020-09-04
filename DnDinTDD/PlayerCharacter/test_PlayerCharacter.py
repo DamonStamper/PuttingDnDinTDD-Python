@@ -9,10 +9,6 @@ class Test_playercharacter():
         with pytest.raises(TypeError):
             PlayerCharacter.PlayerCharacter()
 
-    def test_playercharacter_armorclass_create_correct_name(self):
-        player = PlayerCharacter.PlayerCharacter('Foo')
-        assert player.name == 'Foo'
-
     def test_playercharacter_armorclass_create_incorrect_name(self):
         with pytest.raises(ValueError):
             PlayerCharacter.PlayerCharacter(7)
@@ -55,7 +51,7 @@ class Test_playercharacter():
         player = PlayerCharacter.PlayerCharacter('Foo')
         assert player.hitpoints == 5
 
-    def test_playercharacter_create_specifict_hitpoints(self):
+    def test_playercharacter_create_specific_hitpoints(self):
         player = PlayerCharacter.PlayerCharacter('Foo', hitpoints=7)
         assert player.hitpoints == 7
 

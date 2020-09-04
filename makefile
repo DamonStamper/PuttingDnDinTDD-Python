@@ -1,10 +1,7 @@
-test: lint unitTest coverage
+test: lint unitTestCoverage
 
 lint:
 	flake8 DnDinTDD
 
-coverage:
+unitTestCoverage:
 	pytest --junitxml=junit.xml --cov-config=setup.cfg --cov-report=xml --cov=DnDinTDD
-
-unitTest:
-	pytest
