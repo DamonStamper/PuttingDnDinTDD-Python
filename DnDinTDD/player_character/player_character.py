@@ -4,6 +4,8 @@ import random
 class PlayerCharacter:
     """The entity that is played"""
 
+    # pylint: disable=too-many-instance-attributes
+
     def __init__(self, name, alignment='Neutral', armorclass=10, hitpoints=5):
         self.name = name
         self.alignment = alignment
@@ -16,7 +18,7 @@ class PlayerCharacter:
 
     @name.setter
     def name(self, new_name):
-        if (isinstance(new_name, str)):
+        if isinstance(new_name, str):
             self.__name = new_name
         else:
             raise ValueError('Please provide a valid name (string).')
@@ -28,7 +30,7 @@ class PlayerCharacter:
     @alignment.setter
     def alignment(self, new_alignment):
         alignments = ['Good', 'Evil', 'Neutral']
-        if (new_alignment in alignments):
+        if new_alignment in alignments:
             self.__alignment = new_alignment
         else:
             raise ValueError(f"Please provide a valid alignment. Valid alignments are {alignments}.")
