@@ -1,9 +1,9 @@
 import pytest
-# import unittest
 
 from PlayerCharacter import PlayerCharacter
 
 
+@SuppressWarnings("python:S101")
 class Test_playercharacter():
     def test_playercharacter_incorrect_no_parameters(self):
         with pytest.raises(TypeError):
