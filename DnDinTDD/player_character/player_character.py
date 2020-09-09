@@ -9,6 +9,7 @@ class PlayerCharacter:
         self.alignment = alignment
         self.armorclass = armorclass
         self.hitpoints = hitpoints
+        self.isAlive = True
 
     @property
     def name(self):
@@ -48,9 +49,26 @@ class PlayerCharacter:
     @hitpoints.setter
     def hitpoints(self, new_hitpoints):
         self.__hitpoints = new_hitpoints
+        if self.hitpoints <= 0:
+            self.isAlive = False
+
+    @property
+    def isAlive(self):
+        return self.__isAlive
+
+    @isAlive.setter
+    def isAlive(self, new_isAlive):
+        self.__isAlive = new_isAlive
 
     def attack(self, target):
         to_hit = random.randint(1, 20)
-        if to_hit >= target.armorclass:
-            return True
-            # target.Damage()
+        if to_hit == 20:
+            target.TakeDamage(critical=True)
+        elif to_hit >= target.armorclass:
+            target.TakeDamage()
+
+    def TakeDamage(self, critical=False):
+        if critical:
+            self.hitpoints = self.hitpoints - 2
+        else:
+            self.hitpoints = self.hitpoints - 1

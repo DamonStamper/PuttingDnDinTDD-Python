@@ -1,4 +1,5 @@
 import pytest
+from unittest import mock
 
 from player_character import player_character
 
@@ -58,7 +59,32 @@ class Test_Playercharacter():
         player = player_character.PlayerCharacter('Foo', hitpoints=7)
         assert player.hitpoints == 7
 
-    def test_playercharacter_can_attack(self):
+    @mock.patch("random.randint", return_value=19, autospec=True)
+    def test_playercharacter_can_attack(self, mock_randint):
         player = player_character.PlayerCharacter('Foo')
         enemy = player_character.PlayerCharacter('Bar')
-        assert player.attack(enemy)
+        player.attack(enemy)
+        assert enemy.hitpoints == 4
+        mock_randint.assert_called_once_with(1, 20)
+
+    @mock.patch("random.randint", return_value=20, autospec=True)
+    def test_playercharacter_critical_attack_doubles_damage(self, mock_randint):
+        player = player_character.PlayerCharacter('Foo')
+        enemy = player_character.PlayerCharacter('Bar')
+        player.attack(enemy)
+        assert enemy.hitpoints == 3
+        mock_randint.assert_called_once_with(1, 20)
+
+    @mock.patch("random.randint", return_value=2, autospec=True)
+    def test_playercharacter_attack_can_miss(self, mock_randint):
+        player = player_character.PlayerCharacter('Foo')
+        enemy = player_character.PlayerCharacter('Bar')
+        player.attack(enemy)
+        assert enemy.hitpoints == 5
+        mock_randint.assert_called_once_with(1, 20)
+
+    def test_playercharacter_attack_can_die(self):
+        player = player_character.PlayerCharacter('Foo', hitpoints=1)
+        player.TakeDamage()
+        player.TakeDamage()
+        assert player.isAlive is False
