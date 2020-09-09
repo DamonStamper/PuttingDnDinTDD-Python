@@ -85,6 +85,6 @@ class Test_Playercharacter():
 
     def test_playercharacter_attack_can_die(self):
         player = player_character.PlayerCharacter('Foo', hitpoints=1)
-        player.TakeDamage()
-        player.TakeDamage()
-        assert player.isAlive is False
+        player.damage()
+        player.damage()
+        assert player.is_alive is False
