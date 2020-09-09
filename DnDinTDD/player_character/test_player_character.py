@@ -88,3 +88,16 @@ class Test_Playercharacter():
         player.damage()
         player.damage()
         assert player.is_alive is False
+
+    def test_playercharacter_define_default_strength(self):
+        player = player_character.PlayerCharacter('Foo')
+        assert player.strength == 10
+
+    def test_playercharacter_define_correct_strength(self):
+        player = player_character.PlayerCharacter('Foo', strength=13)
+        assert player.strength == 13
+
+    def test_playercharacter_define_incorrect_strength(self):
+        with pytest.raises(ValueError) as exp:
+            player_character.PlayerCharacter('Foo', strength='thirteen')
+        assert str(exp.value) == 'Please provide a valid value (1-20).'

@@ -4,21 +4,22 @@ import random
 class PlayerCharacter:
     """The entity that is played"""
 
-    def __init__(self, name, alignment='Neutral', armorclass=10, hitpoints=5):
+    def __init__(self, name, alignment='Neutral', armorclass=10, hitpoints=5, strength=10):
         self.name = name
         self.alignment = alignment
         self.armorclass = armorclass
         self.hitpoints = hitpoints
         self.is_alive = True
+        self.strength = strength
 
     @property
     def name(self):
         return self.__name
 
     @name.setter
-    def name(self, new_name):
-        if isinstance(new_name, str):
-            self.__name = new_name
+    def name(self, new_value):
+        if isinstance(new_value, str):
+            self.__name = new_value
         else:
             raise ValueError('Please provide a valid name (string).')
 
@@ -27,10 +28,10 @@ class PlayerCharacter:
         return self.__alignment
 
     @alignment.setter
-    def alignment(self, new_alignment):
+    def alignment(self, new_value):
         alignments = ['Good', 'Evil', 'Neutral']
-        if new_alignment in alignments:
-            self.__alignment = new_alignment
+        if new_value in alignments:
+            self.__alignment = new_value
         else:
             raise ValueError(f"Please provide a valid alignment. Valid alignments are {alignments}.")
 
@@ -39,16 +40,16 @@ class PlayerCharacter:
         return self.__armorclass
 
     @armorclass.setter
-    def armorclass(self, new_armorclass):
-        self.__armorclass = new_armorclass
+    def armorclass(self, new_value):
+        self.__armorclass = new_value
 
     @property
     def hitpoints(self):
         return self.__hitpoints
 
     @hitpoints.setter
-    def hitpoints(self, new_hitpoints):
-        self.__hitpoints = new_hitpoints
+    def hitpoints(self, new_value):
+        self.__hitpoints = new_value
         if self.hitpoints <= 0:
             self.is_alive = False
 
@@ -57,8 +58,19 @@ class PlayerCharacter:
         return self.__is_alive
 
     @is_alive.setter
-    def is_alive(self, new_is_alive):
-        self.__is_alive = new_is_alive
+    def is_alive(self, new_value):
+        self.__is_alive = new_value
+
+    @property
+    def strength(self):
+        return self.__strength
+
+    @strength.setter
+    def strength(self, new_value):
+        if isinstance(new_value, int) and 1 <= new_value <= 20:
+            self.__strength = new_value
+        else:
+            raise ValueError('Please provide a valid value (1-20).')
 
     def attack(self, target):
         to_hit = random.randint(1, 20)
