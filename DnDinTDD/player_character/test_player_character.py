@@ -61,4 +61,4 @@ class Test_Playercharacter():
     def test_playercharacter_can_attack(self):
         player = player_character.PlayerCharacter('Foo')
         enemy = player_character.PlayerCharacter('Bar')
-        player.attack(enemy)
+        assert player.attack(enemy)
