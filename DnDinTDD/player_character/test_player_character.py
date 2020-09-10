@@ -89,6 +89,16 @@ class Test_Playercharacter():
         player.damage()
         assert player.is_alive is False
 
+    def test_playercharacter_ability_modifier_positive(self):
+        player = player_character.PlayerCharacter('Foo')
+        assert player.get_ability_modifier(14) == 2
+
+    def test_playercharacter_ability_modifier_negative(self):
+        player = player_character.PlayerCharacter('Foo')
+        assert player.get_ability_modifier(8) == -1
+
+
+class Test_Playercharacter_strength():
     def test_playercharacter_define_default_strength(self):
         player = player_character.PlayerCharacter('Foo')
         assert player.strength == 10
@@ -101,3 +111,38 @@ class Test_Playercharacter():
         with pytest.raises(ValueError) as exp:
             player_character.PlayerCharacter('Foo', strength='thirteen')
         assert str(exp.value) == 'Please provide a valid value (1-20).'
+
+    @mock.patch("random.randint", return_value=10, autospec=True)
+    def test_playercharacter_strength_modifies_to_hit(self, mock_randint):
+        player = player_character.PlayerCharacter('Foo', strength=13)
+        enemy = player_character.PlayerCharacter('Bar', armorclass=10, hitpoints=5)
+        player.attack(enemy)
+        assert enemy.hitpoints < 5
+
+    @mock.patch("random.randint", return_value=19, autospec=True)
+    def test_playercharacter_strength_modifies_to_hit_doesnt_trigger_critical(self, mock_randint):
+        player = player_character.PlayerCharacter('Foo', strength=13)
+        enemy = player_character.PlayerCharacter('Bar', armorclass=10, hitpoints=5)
+        player.attack(enemy)
+        assert enemy.hitpoints == 3
+
+    @mock.patch("random.randint", return_value=19, autospec=True)
+    def test_playercharacter_strength_modifies_damage(self, mock_randint):
+        player = player_character.PlayerCharacter('Foo', strength=13)
+        enemy = player_character.PlayerCharacter('Bar', armorclass=10, hitpoints=5)
+        player.attack(enemy)
+        assert enemy.hitpoints == 3
+
+    @mock.patch("random.randint", return_value=19, autospec=True)
+    def test_playercharacter_strength_modifier_never_less_than_1_damage(self, mock_randint):
+        player = player_character.PlayerCharacter('Foo', strength=1)
+        enemy = player_character.PlayerCharacter('Bar', armorclass=10, hitpoints=5)
+        player.attack(enemy)
+        assert enemy.hitpoints < 5
+
+    @mock.patch("random.randint", return_value=20, autospec=True)
+    def test_playercharacter_strength_modifier_never_less_than_1_damage_on_critical_hit(self, mock_randint):
+        player = player_character.PlayerCharacter('Foo', strength=1)
+        enemy = player_character.PlayerCharacter('Bar', armorclass=10, hitpoints=5)
+        player.attack(enemy)
+        assert enemy.hitpoints < 5

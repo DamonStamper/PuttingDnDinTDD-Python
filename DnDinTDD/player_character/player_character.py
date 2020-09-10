@@ -4,7 +4,7 @@ import random
 class PlayerCharacter:
     """The entity that is played"""
 
-    def __init__(self, name, alignment='Neutral', armorclass=10, hitpoints=5, strength=10):
+    def __init__(self, name, alignment='Neutral', armorclass=10, hitpoints=5, strength=10, dexterity=10, constitution=10):
         self.name = name
         self.alignment = alignment
         self.armorclass = armorclass
@@ -72,15 +72,46 @@ class PlayerCharacter:
         else:
             raise ValueError('Please provide a valid value (1-20).')
 
-    def attack(self, target):
-        to_hit = random.randint(1, 20)
-        if to_hit == 20:
-            target.damage(critical=True)
-        elif to_hit >= target.armorclass:
-            target.damage()
+    @property
+    def dexterity(self):
+        return self.__dexterity
 
-    def damage(self, critical=False):
-        if critical:
-            self.hitpoints = self.hitpoints - 2
+    @dexterity.setter
+    def dexterity(self, new_value):
+        if isinstance(new_value, int) and 1 <= new_value <= 20:
+            self.__dexterity = new_value
         else:
-            self.hitpoints = self.hitpoints - 1
+            raise ValueError('Please provide a valid value (1-20).')
+
+    @property
+    def constitution(self):
+        return self.__constitution
+
+    @constitution.setter
+    def constitution(self, new_value):
+        if isinstance(new_value, int) and 1 <= new_value <= 20:
+            self.__constitution = new_value
+        else:
+            raise ValueError('Please provide a valid value (1-20).')
+
+    def get_ability_modifier(self, value):
+        distance_to_10_5 = value - 10.5
+        raw_modifier = distance_to_10_5 / 2
+        modifier = int(round(raw_modifier, 0))
+        return modifier
+
+    def attack(self, target):
+        to_hit_roll = random.randint(1, 20)
+        to_hit_modified = to_hit_roll + self.get_ability_modifier(self.strength)
+        damage_amount = 1 + self.get_ability_modifier(self.strength)
+        damage_amount = damage_amount if damage_amount >= 1 else 1
+        if to_hit_roll == 20:
+            target.damage(damage_amount, critical=True)
+        elif to_hit_modified >= target.armorclass:
+            target.damage(damage_amount)
+
+    def damage(self, amount=1, critical=False):
+        if critical:
+            self.hitpoints = self.hitpoints - (amount * 2)
+        else:
+            self.hitpoints = self.hitpoints - amount
