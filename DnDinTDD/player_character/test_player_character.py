@@ -91,7 +91,11 @@ class Test_Playercharacter():
 
     def test_playercharacter_ability_modifier_positive(self):
         player = player_character.PlayerCharacter('Foo')
-        assert player.get_ability_modifier(14) == 2
+        assert player.get_ability_modifier(12) == 1
+
+    def test_playercharacter_ability_modifier_positive_large(self):
+        player = player_character.PlayerCharacter('Foo')
+        assert player.get_ability_modifier(17) == 3
 
     def test_playercharacter_ability_modifier_negative(self):
         player = player_character.PlayerCharacter('Foo')
@@ -146,3 +150,12 @@ class Test_Playercharacter_strength():
         enemy = player_character.PlayerCharacter('Bar', armorclass=10, hitpoints=5)
         player.attack(enemy)
         assert enemy.hitpoints < 5
+
+
+class Test_Playercharacter_dexterity():
+    @mock.patch("random.randint", return_value=10, autospec=True)
+    def test_playercharacter_dexterity_modifies_armorclass(self, mock_randint):
+        player = player_character.PlayerCharacter('Foo', dexterity=13)
+        enemy = player_character.PlayerCharacter('Bar')
+        enemy.attack(player)
+        assert player.hitpoints == 5

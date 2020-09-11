@@ -11,6 +11,7 @@ class PlayerCharacter:
         self.hitpoints = hitpoints
         self.is_alive = True
         self.strength = strength
+        self.dexterity = dexterity
 
     @property
     def name(self):
@@ -100,6 +101,11 @@ class PlayerCharacter:
         modifier = int(round(raw_modifier, 0))
         return modifier
 
+    @property
+    def to_hit(self):
+        to_hit = self.armorclass + self.get_ability_modifier(self.dexterity)
+        return to_hit
+
     def attack(self, target):
         to_hit_roll = random.randint(1, 20)
         to_hit_modified = to_hit_roll + self.get_ability_modifier(self.strength)
@@ -107,7 +113,7 @@ class PlayerCharacter:
         damage_amount = damage_amount if damage_amount >= 1 else 1
         if to_hit_roll == 20:
             target.damage(damage_amount, critical=True)
-        elif to_hit_modified >= target.armorclass:
+        elif to_hit_modified >= target.to_hit:
             target.damage(damage_amount)
 
     def damage(self, amount=1, critical=False):
