@@ -1,4 +1,4 @@
-test: lint unitTestCoverage
+test: unitTestCoverage lint
 
 lint:
 	flake8 DnDinTDD
