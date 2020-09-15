@@ -1,8 +1,11 @@
 import random
 
 
+
 class PlayerCharacter:
     """The entity that is played"""
+
+    INVALID_ATTRIBUTE_WARNING = 'Please provide a valid value (1-20).'
 
     def __init__(self, name, alignment='Neutral', armorclass=10, hitpoints=5, strength=10, dexterity=10, constitution=10):
         self.name = name
@@ -55,7 +58,7 @@ class PlayerCharacter:
         if isinstance(new_value, int) and 1 <= new_value <= 20:
             self.__constitution = new_value
         else:
-            raise ValueError('Please provide a valid value (1-20).')
+            raise ValueError(PlayerCharacter.INVALID_ATTRIBUTE_WARNING)
 
     @property
     def hitpoints(self):
@@ -95,7 +98,7 @@ class PlayerCharacter:
         if isinstance(new_value, int) and 1 <= new_value <= 20:
             self.__strength = new_value
         else:
-            raise ValueError('Please provide a valid value (1-20).')
+            raise ValueError(PlayerCharacter.INVALID_ATTRIBUTE_WARNING)
 
     @property
     def dexterity(self):
@@ -106,7 +109,7 @@ class PlayerCharacter:
         if isinstance(new_value, int) and 1 <= new_value <= 20:
             self.__dexterity = new_value
         else:
-            raise ValueError('Please provide a valid value (1-20).')
+            raise ValueError(PlayerCharacter.INVALID_ATTRIBUTE_WARNING)
 
     def get_ability_modifier(self, value):
         distance_to_10_5 = value - 10.5
