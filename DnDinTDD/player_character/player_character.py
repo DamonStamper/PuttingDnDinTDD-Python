@@ -7,11 +7,13 @@ class PlayerCharacter:
     def __init__(self, name, alignment='Neutral', armorclass=10, hitpoints=5, strength=10, dexterity=10, constitution=10):
         self.name = name
         self.alignment = alignment
-        self.armorclass = armorclass
-        self.hitpoints = hitpoints
-        self.is_alive = True
         self.strength = strength
         self.dexterity = dexterity
+        self.constitution = constitution
+        self.armorclass = armorclass
+        self.is_alive = True
+        self.hitpoints = hitpoints
+        self.total_hitpoints = hitpoints
 
     @property
     def name(self):
@@ -45,6 +47,17 @@ class PlayerCharacter:
         self.__armorclass = new_value
 
     @property
+    def constitution(self):
+        return self.__constitution
+
+    @constitution.setter
+    def constitution(self, new_value):
+        if isinstance(new_value, int) and 1 <= new_value <= 20:
+            self.__constitution = new_value
+        else:
+            raise ValueError('Please provide a valid value (1-20).')
+
+    @property
     def hitpoints(self):
         return self.__hitpoints
 
@@ -53,6 +66,17 @@ class PlayerCharacter:
         self.__hitpoints = new_value
         if self.hitpoints <= 0:
             self.is_alive = False
+
+    @property
+    def total_hitpoints(self):
+        return self.__total_hitpoints
+
+    @total_hitpoints.setter
+    def total_hitpoints(self, new_value):
+        new_value = new_value + self.get_ability_modifier(self.constitution)
+        new_value = new_value if new_value > 1 else 1
+        self.__total_hitpoints = new_value
+        self.hitpoints = new_value
 
     @property
     def is_alive(self):
@@ -84,17 +108,6 @@ class PlayerCharacter:
         else:
             raise ValueError('Please provide a valid value (1-20).')
 
-    @property
-    def constitution(self):
-        return self.__constitution
-
-    @constitution.setter
-    def constitution(self, new_value):
-        if isinstance(new_value, int) and 1 <= new_value <= 20:
-            self.__constitution = new_value
-        else:
-            raise ValueError('Please provide a valid value (1-20).')
-
     def get_ability_modifier(self, value):
         distance_to_10_5 = value - 10.5
         raw_modifier = distance_to_10_5 / 2
@@ -110,7 +123,7 @@ class PlayerCharacter:
         to_hit_roll = random.randint(1, 20)
         to_hit_modified = to_hit_roll + self.get_ability_modifier(self.strength)
         damage_amount = 1 + self.get_ability_modifier(self.strength)
-        damage_amount = damage_amount if damage_amount >= 1 else 1
+        damage_amount = damage_amount if damage_amount > 1 else 1
         if to_hit_roll == 20:
             target.damage(damage_amount, critical=True)
         elif to_hit_modified >= target.to_hit:

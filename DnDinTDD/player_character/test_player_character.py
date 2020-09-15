@@ -101,6 +101,10 @@ class Test_Playercharacter():
         player = player_character.PlayerCharacter('Foo')
         assert player.get_ability_modifier(8) == -1
 
+    def test_playercharacter_ability_modifier_negative_large(self):
+        player = player_character.PlayerCharacter('Foo')
+        assert player.get_ability_modifier(7) == -2
+
 
 class Test_Playercharacter_strength():
     def test_playercharacter_define_default_strength(self):
@@ -153,9 +157,49 @@ class Test_Playercharacter_strength():
 
 
 class Test_Playercharacter_dexterity():
+    def test_playercharacter_define_default_dexterity(self):
+        player = player_character.PlayerCharacter('Foo')
+        assert player.dexterity == 10
+
+    def test_playercharacter_define_correct_dexterity(self):
+        player = player_character.PlayerCharacter('Foo', dexterity=13)
+        assert player.dexterity == 13
+
+    def test_playercharacter_define_incorrect_dexterity(self):
+        with pytest.raises(ValueError) as exp:
+            player_character.PlayerCharacter('Foo', dexterity='thirteen')
+        assert str(exp.value) == 'Please provide a valid value (1-20).'
+
     @mock.patch("random.randint", return_value=10, autospec=True)
     def test_playercharacter_dexterity_modifies_armorclass(self, mock_randint):
         player = player_character.PlayerCharacter('Foo', dexterity=13)
         enemy = player_character.PlayerCharacter('Bar')
         enemy.attack(player)
         assert player.hitpoints == 5
+
+
+class Test_Playercharacter_constitution():
+    def test_playercharacter_define_default_constitution(self):
+        player = player_character.PlayerCharacter('Foo')
+        assert player.constitution == 10
+
+    def test_playercharacter_define_correct_constitution(self):
+        player = player_character.PlayerCharacter('Foo', constitution=13)
+        assert player.constitution == 13
+
+    def test_playercharacter_define_incorrect_constitution(self):
+        with pytest.raises(ValueError) as exp:
+            player_character.PlayerCharacter('Foo', constitution='thirteen')
+        assert str(exp.value) == 'Please provide a valid value (1-20).'
+
+    def test_playercharacter_constitution_modifier_negative(self):
+        player = player_character.PlayerCharacter('Foo', constitution=8)
+        assert player.get_ability_modifier(player.constitution) == -1
+
+    def test_playercharacter_constitution_modifies_hitpoints(self):
+        player = player_character.PlayerCharacter('Foo', hitpoints=5, constitution=13)
+        assert player.hitpoints == 6
+
+    def test_playercharacter_constitution_modifies_hitpoints_not_less_than_one(self):
+        player = player_character.PlayerCharacter('Foo', hitpoints=3, constitution=2)
+        assert player.hitpoints == 1
