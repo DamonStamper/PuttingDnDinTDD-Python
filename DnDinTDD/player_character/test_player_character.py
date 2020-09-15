@@ -4,7 +4,7 @@ from unittest import mock
 from player_character import player_character
 
 
-class Test_Playercharacter():
+class TestPlayercharacter():
     def test_playercharacter_incorrect_no_parameters(self):
         with pytest.raises(TypeError) as exp:
             player_character.PlayerCharacter()
@@ -106,7 +106,7 @@ class Test_Playercharacter():
         assert player.get_ability_modifier(7) == -2
 
 
-class Test_Playercharacter_strength():
+class TestPlayercharacterStrength():
     def test_playercharacter_define_default_strength(self):
         player = player_character.PlayerCharacter('Foo')
         assert player.strength == 10
@@ -156,7 +156,7 @@ class Test_Playercharacter_strength():
         assert enemy.hitpoints < 5
 
 
-class Test_Playercharacter_dexterity():
+class TestPlayercharacterDexterity():
     def test_playercharacter_define_default_dexterity(self):
         player = player_character.PlayerCharacter('Foo')
         assert player.dexterity == 10
@@ -178,7 +178,7 @@ class Test_Playercharacter_dexterity():
         assert player.hitpoints == 5
 
 
-class Test_Playercharacter_constitution():
+class TestPlayercharacterConstitution():
     def test_playercharacter_define_default_constitution(self):
         player = player_character.PlayerCharacter('Foo')
         assert player.constitution == 10
@@ -203,3 +203,11 @@ class Test_Playercharacter_constitution():
     def test_playercharacter_constitution_modifies_hitpoints_not_less_than_one(self):
         player = player_character.PlayerCharacter('Foo', hitpoints=3, constitution=2)
         assert player.hitpoints == 1
+
+    def test_playercharacter_constitution_modifies_total_hitpoints(self):
+        player = player_character.PlayerCharacter('Foo', hitpoints=5, constitution=13)
+        assert player.total_hitpoints == 6
+
+    def test_playercharacter_constitution_modifies_total_hitpoints_not_less_than_one(self):
+        player = player_character.PlayerCharacter('Foo', hitpoints=3, constitution=2)
+        assert player.total_hitpoints == 1
