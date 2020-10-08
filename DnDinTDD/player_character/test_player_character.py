@@ -1,8 +1,21 @@
 import pytest
-from unittest import mock
+import mock
+from mock import Mock
+from unittest.mock import MagicMock
+from pytest_mock import MockerFixture
 
 from player_character import player_character
 
+# class SierraSam():
+#     """
+#     This is a testing class used to recreate a player_character-esk object given that auto-specing with mock doesn't work for class attributes defined in an __init__ function. 
+#     'it is common for instance attributes to be created in the __init__() method and not to exist on the class at all. autospec can’t know about any dynamically created attributes and restricts the api to visible attributes.' -- https://docs.python.org/3/library/unittest.mock.html#autospeccing
+#     """
+#     def damage()
+
+@pytest.fixture
+def mock_player_character():
+    return Mock(spec=player_character.PlayerCharacter)
 
 class TestPlayercharacter():
     def test_playercharacter_incorrect_no_parameters(self):
@@ -128,6 +141,7 @@ class TestPlayercharacterStrength():
         assert enemy.hitpoints < 5
 
     @mock.patch("random.randint", return_value=19, autospec=True)
+    # @mock.patch("player_character.damage()", autospec=True)
     def test_playercharacter_strength_modifies_to_hit_doesnt_trigger_critical(self, mock_randint):
         player = player_character.PlayerCharacter('Foo', strength=13)
         enemy = player_character.PlayerCharacter('Bar', armorclass=10, hitpoints=5)
@@ -144,16 +158,21 @@ class TestPlayercharacterStrength():
     @mock.patch("random.randint", return_value=19, autospec=True)
     def test_playercharacter_strength_modifier_never_less_than_1_damage(self, mock_randint):
         player = player_character.PlayerCharacter('Foo', strength=1)
-        enemy = player_character.PlayerCharacter('Bar', armorclass=10, hitpoints=5)
+        enemy = player_character.PlayerCharacter('Bar', armorclass=1, hitpoints=5)
+        enemy.damage = MagicMock()
         player.attack(enemy)
-        assert enemy.hitpoints < 5
+
+        enemy.damage.assert_called_once_with(1)
 
     @mock.patch("random.randint", return_value=20, autospec=True)
-    def test_playercharacter_strength_modifier_never_less_than_1_damage_on_critical_hit(self, mock_randint):
+    def test_playercharacter_strength_modifier_never_less_than_1_damage_on_critical_hit(self, mock_randint, mock_player_character):
         player = player_character.PlayerCharacter('Foo', strength=1)
-        enemy = player_character.PlayerCharacter('Bar', armorclass=10, hitpoints=5)
+        enemy = player_character.PlayerCharacter('Bar', armorclass=1, hitpoints=5)
+        enemy.damage = MagicMock()
         player.attack(enemy)
-        assert enemy.hitpoints < 5
+
+        enemy.damage.assert_called_once_with(1, critical=True)
+
 
 
 class TestPlayercharacterDexterity():

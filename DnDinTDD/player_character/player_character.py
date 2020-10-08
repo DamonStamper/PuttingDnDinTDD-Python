@@ -123,11 +123,14 @@ class PlayerCharacter:
         return to_hit
 
     def attack(self, target):
-        to_hit_roll = random.randint(1, 20)
-        to_hit_modified = to_hit_roll + self.get_ability_modifier(self.strength)
+        # Store natural
+        to_hit_natural = random.randint(1, 20)
+        to_hit_modified = to_hit_natural + self.get_ability_modifier(self.strength)
+
         damage_amount = 1 + self.get_ability_modifier(self.strength)
         damage_amount = damage_amount if damage_amount > 1 else 1
-        if to_hit_roll == 20:
+        
+        if to_hit_natural == 20:
             target.damage(damage_amount, critical=True)
         elif to_hit_modified >= target.to_hit:
             target.damage(damage_amount)
