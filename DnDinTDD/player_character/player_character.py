@@ -1,18 +1,20 @@
 import random
 
 
-
 class PlayerCharacter:
     """The entity that is played"""
 
     INVALID_ATTRIBUTE_WARNING = 'Please provide a valid value (1-20).'
 
-    def __init__(self, name, alignment='Neutral', armorclass=10, hitpoints=5, strength=10, dexterity=10, constitution=10):
+    def __init__(self, name, alignment='Neutral', armorclass=10, hitpoints=5, strength=10, dexterity=10, constitution=10, wisdom=10, intelligence=10, charisma=10):
         self.name = name
         self.alignment = alignment
         self.strength = strength
         self.dexterity = dexterity
         self.constitution = constitution
+        self.wisdom = wisdom
+        self.intelligence = intelligence
+        self.charisma = charisma
         self.armorclass = armorclass
         self.is_alive = True
         self.hitpoints = hitpoints
@@ -57,6 +59,39 @@ class PlayerCharacter:
     def constitution(self, new_value):
         if isinstance(new_value, int) and 1 <= new_value <= 20:
             self.__constitution = new_value
+        else:
+            raise ValueError(PlayerCharacter.INVALID_ATTRIBUTE_WARNING)
+
+    @property
+    def wisdom(self):
+        return self.__wisdom
+
+    @wisdom.setter
+    def wisdom(self, new_value):
+        if isinstance(new_value, int) and 1 <= new_value <= 20:
+            self.__wisdom = new_value
+        else:
+            raise ValueError(PlayerCharacter.INVALID_ATTRIBUTE_WARNING)
+
+    @property
+    def intelligence(self):
+        return self.__intelligence
+
+    @intelligence.setter
+    def intelligence(self, new_value):
+        if isinstance(new_value, int) and 1 <= new_value <= 20:
+            self.__intelligence = new_value
+        else:
+            raise ValueError(PlayerCharacter.INVALID_ATTRIBUTE_WARNING)
+
+    @property
+    def charisma(self):
+        return self.__charisma
+
+    @charisma.setter
+    def charisma(self, new_value):
+        if isinstance(new_value, int) and 1 <= new_value <= 20:
+            self.__charisma = new_value
         else:
             raise ValueError(PlayerCharacter.INVALID_ATTRIBUTE_WARNING)
 
@@ -123,13 +158,12 @@ class PlayerCharacter:
         return to_hit
 
     def attack(self, target):
-        # Store natural
         to_hit_natural = random.randint(1, 20)
         to_hit_modified = to_hit_natural + self.get_ability_modifier(self.strength)
 
         damage_amount = 1 + self.get_ability_modifier(self.strength)
         damage_amount = damage_amount if damage_amount > 1 else 1
-        
+
         if to_hit_natural == 20:
             target.damage(damage_amount, critical=True)
         elif to_hit_modified >= target.to_hit:

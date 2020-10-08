@@ -2,20 +2,14 @@ import pytest
 import mock
 from mock import Mock
 from unittest.mock import MagicMock
-from pytest_mock import MockerFixture
 
 from player_character import player_character
 
-# class SierraSam():
-#     """
-#     This is a testing class used to recreate a player_character-esk object given that auto-specing with mock doesn't work for class attributes defined in an __init__ function. 
-#     'it is common for instance attributes to be created in the __init__() method and not to exist on the class at all. autospec can’t know about any dynamically created attributes and restricts the api to visible attributes.' -- https://docs.python.org/3/library/unittest.mock.html#autospeccing
-#     """
-#     def damage()
 
 @pytest.fixture
 def mock_player_character():
     return Mock(spec=player_character.PlayerCharacter)
+
 
 class TestPlayercharacter():
     def test_playercharacter_incorrect_no_parameters(self):
@@ -161,7 +155,6 @@ class TestPlayercharacterStrength():
         enemy = player_character.PlayerCharacter('Bar', armorclass=1, hitpoints=5)
         enemy.damage = MagicMock()
         player.attack(enemy)
-
         enemy.damage.assert_called_once_with(1)
 
     @mock.patch("random.randint", return_value=20, autospec=True)
@@ -170,9 +163,7 @@ class TestPlayercharacterStrength():
         enemy = player_character.PlayerCharacter('Bar', armorclass=1, hitpoints=5)
         enemy.damage = MagicMock()
         player.attack(enemy)
-
         enemy.damage.assert_called_once_with(1, critical=True)
-
 
 
 class TestPlayercharacterDexterity():
@@ -189,12 +180,9 @@ class TestPlayercharacterDexterity():
             player_character.PlayerCharacter('Foo', dexterity='thirteen')
         assert str(exp.value) == 'Please provide a valid value (1-20).'
 
-    @mock.patch("random.randint", return_value=10, autospec=True)
-    def test_playercharacter_dexterity_modifies_armorclass(self, mock_randint):
+    def test_playercharacter_dexterity_modifies_armorclass(self):
         player = player_character.PlayerCharacter('Foo', dexterity=13)
-        enemy = player_character.PlayerCharacter('Bar')
-        enemy.attack(player)
-        assert player.hitpoints == 5
+        assert player.to_hit == 11
 
 
 class TestPlayercharacterConstitution():
@@ -230,3 +218,21 @@ class TestPlayercharacterConstitution():
     def test_playercharacter_constitution_modifies_total_hitpoints_not_less_than_one(self):
         player = player_character.PlayerCharacter('Foo', hitpoints=3, constitution=2)
         assert player.total_hitpoints == 1
+
+
+class TestPlayercharacterWisdom():
+    def test_playercharacter_define_default_wisdom(self):
+        player = player_character.PlayerCharacter('Foo')
+        assert player.wisdom == 10
+
+
+class TestPlayercharacterIntelligence():
+    def test_playercharacter_define_default_intelligence(self):
+        player = player_character.PlayerCharacter('Foo')
+        assert player.intelligence == 10
+
+
+class TestPlayercharacterCharisma():
+    def test_playercharacter_define_default_charisma(self):
+        player = player_character.PlayerCharacter('Foo')
+        assert player.charisma == 10
