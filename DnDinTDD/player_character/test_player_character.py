@@ -5,6 +5,7 @@ from unittest.mock import MagicMock
 
 from player_character import player_character
 
+INVALID_ATTRIBUTE_WARNING = 'Please provide a valid value (1-20).'
 
 @pytest.fixture
 def mock_player_character():
@@ -125,7 +126,7 @@ class TestPlayercharacterStrength():
     def test_playercharacter_define_incorrect_strength(self):
         with pytest.raises(ValueError) as exp:
             player_character.PlayerCharacter('Foo', strength='thirteen')
-        assert str(exp.value) == 'Please provide a valid value (1-20).'
+        assert str(exp.value) == INVALID_ATTRIBUTE_WARNING
 
     @mock.patch("random.randint", return_value=10, autospec=True)
     def test_playercharacter_strength_modifies_to_hit(self, mock_randint):
@@ -178,7 +179,7 @@ class TestPlayercharacterDexterity():
     def test_playercharacter_define_incorrect_dexterity(self):
         with pytest.raises(ValueError) as exp:
             player_character.PlayerCharacter('Foo', dexterity='thirteen')
-        assert str(exp.value) == 'Please provide a valid value (1-20).'
+        assert str(exp.value) == INVALID_ATTRIBUTE_WARNING
 
     def test_playercharacter_dexterity_modifies_armorclass(self):
         player = player_character.PlayerCharacter('Foo', dexterity=13)
@@ -197,7 +198,7 @@ class TestPlayercharacterConstitution():
     def test_playercharacter_define_incorrect_constitution(self):
         with pytest.raises(ValueError) as exp:
             player_character.PlayerCharacter('Foo', constitution='thirteen')
-        assert str(exp.value) == 'Please provide a valid value (1-20).'
+        assert str(exp.value) == INVALID_ATTRIBUTE_WARNING
 
     def test_playercharacter_constitution_modifier_negative(self):
         player = player_character.PlayerCharacter('Foo', constitution=8)
