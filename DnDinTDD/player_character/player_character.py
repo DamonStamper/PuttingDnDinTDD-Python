@@ -6,7 +6,7 @@ class PlayerCharacter:
 
     INVALID_ATTRIBUTE_WARNING = 'Please provide a valid value (1-20).'
 
-    def __init__(self, name, alignment='Neutral', armorclass=10, hitpoints=5, strength=10, dexterity=10, constitution=10, wisdom=10, intelligence=10, charisma=10):
+    def __init__(self, name, alignment='Neutral', armorclass=10, hitpoints=5, strength=10, dexterity=10, constitution=10, wisdom=10, intelligence=10, charisma=10, experience=0):
         self.name = name
         self.alignment = alignment
         self.strength = strength
@@ -19,6 +19,7 @@ class PlayerCharacter:
         self.is_alive = True
         self.hitpoints = hitpoints
         self.total_hitpoints = hitpoints
+        self.experience = experience
 
     @property
     def name(self):
@@ -157,6 +158,17 @@ class PlayerCharacter:
         to_hit = self.armorclass + self.get_ability_modifier(self.dexterity)
         return to_hit
 
+    @property
+    def experience(self):
+        return self.__experience
+
+    @experience.setter
+    def experience(self, new_value):
+        if isinstance(new_value, int):
+            self.__experience = new_value
+        else:
+            raise ValueError('Please provide a valid name (string).')
+
     def attack(self, target):
         to_hit_natural = random.randint(1, 20)
         to_hit_modified = to_hit_natural + self.get_ability_modifier(self.strength)
@@ -166,8 +178,10 @@ class PlayerCharacter:
 
         if to_hit_natural == 20:
             target.damage(damage_amount, critical=True)
+            self.experience += 10
         elif to_hit_modified >= target.to_hit:
             target.damage(damage_amount)
+            self.experience += 10
 
     def damage(self, amount=1, critical=False):
         if critical:

@@ -136,7 +136,6 @@ class TestPlayercharacterStrength():
         assert enemy.hitpoints < 5
 
     @mock.patch("random.randint", return_value=19, autospec=True)
-    # @mock.patch("player_character.damage()", autospec=True)
     def test_playercharacter_strength_modifies_to_hit_doesnt_trigger_critical(self, mock_randint):
         player = player_character.PlayerCharacter('Foo', strength=13)
         enemy = player_character.PlayerCharacter('Bar', armorclass=10, hitpoints=5)
@@ -165,6 +164,36 @@ class TestPlayercharacterStrength():
         enemy.damage = MagicMock()
         player.attack(enemy)
         enemy.damage.assert_called_once_with(1, critical=True)
+    
+    @mock.patch("random.randint", return_value=19, autospec=True)
+    def test_playercharacter_successful_attack_earns_experience(self, mock_randint):
+        player = player_character.PlayerCharacter('Foo')
+        enemy = player_character.PlayerCharacter('Bar')
+        enemy.damage = MagicMock()
+        player.attack(enemy)
+
+        enemy.damage.assert_called()
+        assert player.experience == 10
+
+    @mock.patch("random.randint", return_value=20, autospec=True)
+    def test_playercharacter_critical_attack_earns_experience(self, mock_randint):
+        player = player_character.PlayerCharacter('Foo')
+        enemy = player_character.PlayerCharacter('Bar')
+        enemy.damage = MagicMock()
+        player.attack(enemy)
+
+        enemy.damage.assert_called()
+        assert player.experience == 10
+
+    @mock.patch("random.randint", return_value=2, autospec=True)
+    def test_playercharacter_failed_attack_doesnt_earn_experience(self, mock_randint):
+        player = player_character.PlayerCharacter('Foo')
+        enemy = player_character.PlayerCharacter('Bar')
+        enemy.damage = MagicMock()
+        player.attack(enemy)
+
+        enemy.damage.assert_not_called()
+        assert player.experience == 0
 
 
 class TestPlayercharacterDexterity():
