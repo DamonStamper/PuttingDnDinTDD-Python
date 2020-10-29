@@ -7,6 +7,7 @@ from player_character import player_character
 
 INVALID_ATTRIBUTE_WARNING = 'Please provide a valid value (1-20).'
 
+
 @pytest.fixture
 def mock_player_character():
     return Mock(spec=player_character.PlayerCharacter)
@@ -16,12 +17,12 @@ class TestPlayercharacter():
     def test_playercharacter_incorrect_no_parameters(self):
         with pytest.raises(TypeError) as exp:
             player_character.PlayerCharacter()
-        assert str(exp.value) == "__init__() missing 1 required positional argument: 'name'"
+            assert str(exp.value) == "__init__() missing 1 required positional argument: 'name'"
 
     def test_playercharacter_armorclass_create_incorrect_name(self):
         with pytest.raises(ValueError) as exp:
             player_character.PlayerCharacter(7)
-        assert str(exp.value) == 'Please provide a valid name (string).'
+            assert str(exp.value) == 'Please provide a valid name (string).'
 
     def test_playercharacter_get_correct_name(self):
         player = player_character.PlayerCharacter('Foo')
@@ -164,14 +165,13 @@ class TestPlayercharacterStrength():
         enemy.damage = MagicMock()
         player.attack(enemy)
         enemy.damage.assert_called_once_with(1, critical=True)
-    
+
     @mock.patch("random.randint", return_value=19, autospec=True)
     def test_playercharacter_successful_attack_earns_experience(self, mock_randint):
         player = player_character.PlayerCharacter('Foo')
         enemy = player_character.PlayerCharacter('Bar')
         enemy.damage = MagicMock()
         player.attack(enemy)
-
         enemy.damage.assert_called()
         assert player.experience == 10
 
@@ -194,6 +194,11 @@ class TestPlayercharacterStrength():
 
         enemy.damage.assert_not_called()
         assert player.experience == 0
+
+    def test_playercharacter_create_with_invalid_experience(self):
+        with pytest.raises(ValueError) as exp:
+            player_character.PlayerCharacter('Foo', experience='a')
+            assert str(exp.value) == 'Please provide a valid experience amount (integer).'
 
 
 class TestPlayercharacterDexterity():
@@ -255,14 +260,29 @@ class TestPlayercharacterWisdom():
         player = player_character.PlayerCharacter('Foo')
         assert player.wisdom == 10
 
+    def test_playercharacter_define_incorrect_wisdom(self):
+        with pytest.raises(ValueError) as exp:
+            player_character.PlayerCharacter('Foo', wisdom='a')
+        assert str(exp.value) == INVALID_ATTRIBUTE_WARNING
+
 
 class TestPlayercharacterIntelligence():
     def test_playercharacter_define_default_intelligence(self):
         player = player_character.PlayerCharacter('Foo')
         assert player.intelligence == 10
 
+    def test_playercharacter_define_incorrect_intelligence(self):
+        with pytest.raises(ValueError) as exp:
+            player_character.PlayerCharacter('Foo', intelligence='a')
+        assert str(exp.value) == INVALID_ATTRIBUTE_WARNING
+
 
 class TestPlayercharacterCharisma():
     def test_playercharacter_define_default_charisma(self):
         player = player_character.PlayerCharacter('Foo')
         assert player.charisma == 10
+
+    def test_playercharacter_define_incorrect_charisma(self):
+        with pytest.raises(ValueError) as exp:
+            player_character.PlayerCharacter('Foo', charisma='a')
+        assert str(exp.value) == INVALID_ATTRIBUTE_WARNING

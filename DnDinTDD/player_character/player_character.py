@@ -167,7 +167,7 @@ class PlayerCharacter:
         if isinstance(new_value, int):
             self.__experience = new_value
         else:
-            raise ValueError('Please provide a valid name (string).')
+            raise ValueError('Please provide a valid experience amount (integer).')
 
     def attack(self, target):
         to_hit_natural = random.randint(1, 20)
