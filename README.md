@@ -7,7 +7,7 @@ To follow https://github.com/PuttingTheDnDInTDD/EverCraft-Kata
 
 # Project tracking/CICD/SonarCloud
 https://dev.azure.com/DamonStamperPersonal/DandD%20in%20TDD 
-https://sonarcloud.io/project/configuration?id=putting-dnd-in-tdd-python
+https://sonarcloud.io/dashboard?id=putting-dnd-in-tdd-python
 
 Milestones are listed below, but tracking of progress will be maintained in Azure DevOps boards.
 
