@@ -11,6 +11,12 @@ https://sonarcloud.io/dashboard?id=putting-dnd-in-tdd-python
 
 Milestones are listed below, but tracking of progress will be maintained in Azure DevOps boards.
 
+# Build pipelines
+There are multiple build pipelines for this repository. This isn't for any technical reason other than this is a play project and is meant to explore various technologies. This includes pipelines.
+
+1. Azure pipelines
+2. GitHub actions
+
 # Requirements
 
 ## Milestone 1 - Core
